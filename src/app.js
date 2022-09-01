@@ -16,10 +16,7 @@ const userData = fs.readFileSync('src/json/users.json', 'utf8');
 const users = JSON.parse(userData);
 
 
-// app.route('/payment')
-app.get('/payment', (req, res) => {
-  return res.render('payment', { account: accounts.credit })
-});
+app.get('/payment', (req, res) => (res.render('payment', { account: accounts.credit })));
 app.post('/payment', (req, res) => {
   const amount = parseInt(req.body.amount, 10);
 
@@ -27,16 +24,13 @@ app.post('/payment', (req, res) => {
   accounts.credit.available += amount;
 
   const accountsJSON = JSON.stringify(accounts);
-  fs.writeFileSync(path.join(__dirname, 'json','accounts.json'), accountsJSON, 'utf8');
+  fs.writeFileSync(path.join(__dirname, 'json', 'accounts.json'), accountsJSON, 'utf8');
 
   res.render('payment', { message: "Payment Successful", account: accounts.credit })
 })
-app.get('/transfer',
-  (req, res) => {
-  return res.render('transfer')
-});
+
+app.get('/transfer', (req, res) => (res.render('transfer')));
 app.post('/transfer', (req, res) => {
-  // .post((req, res) => {
   const from = req.body.from;
   const to = req.body.to;
   const amount = parseInt(req.body.amount, 10);
